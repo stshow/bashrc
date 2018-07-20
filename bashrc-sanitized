@@ -1,0 +1,266 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+HISTSIZE=-1
+HISTFILESIZE=-1
+
+# bash completion
+if [ -f /etc/bash_completion ]; then
+   . /etc/bash_completion
+fi
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+#export PYTHONPATH="${PYTHONPATH}/usr/local/lib/python3.6/site-packages:/usr/lib/python3.6/site-packages"
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+export EDITOR=vim
+export PATH=~/.local/bin:$HOME/support-tools:/home/SANITIZED-USER/git/har/bin:/usr/games:$PATH
+
+# User specific aliases and functions
+source ~/support-tools/introspection/support_dump_reconstituters.sh
+	alias ls='ls --color=auto'
+	alias grep='grep --colour=auto'
+	alias egrep='egrep --colour=auto'
+	alias fgrep='fgrep --colour=auto'
+alias grep-out-junk="grep -E -v '(oci runtime error|rpc error|not a swarm manager|manifest unknown|is not running|level=info|level=warning|grpc|session failed|no such file or directory)'"
+alias wn='tmux rename-window $(basename "$PWD")'
+alias sforce-watch-queue='/home/SANITIZED-USER/docker/sforce/run-watch-queue.sh'
+alias view_photo='eog'
+alias task-sync='bash -x ~/bin/task-sync.sh'
+alias worklaptop-ssh='ssh -YC SANITIZED-USER@SANITIZED-IP'
+alias sforce='~/docker/sforce/run.sh'
+alias task-due='clear && task due.any: list'
+alias cases='clear && task project:Ca'
+alias kb='clear && task project:KB'
+alias scripts='clear && task project:Script'
+alias untar='for f in *.tar; do d=`basename $f .tar`; mkdir -p $d; (cd $d && tar xf ../$f && mv dsinfo/* . && rm -rf dsinfo); done'
+alias untgz='for f in *.tgz; do d=`basename $f .tgz`; mkdir -p $d; (cd $d && tar xf ../$f && mv dsinfo/* . && rm -rf dsinfo); done'
+alias untargz='for f in *.tar.gz; do d=`basename $f .tar.gz`; mkdir -p $d; (cd $d && tar xf ../$f); done'
+alias unzipdir='for f in *.zip; do d=`basename $f .zip`; mkdir -p $d; (cd $d && unzip ../$f); done'
+alias train='/home/SANITIZED-USER/docker/train/train.sh'
+alias missing-nodes='~/bin/missing-nodes.sh'
+alias vu='vagrant up 2> /dev/null'
+alias vs='vagrant ssh 2> /dev/null'
+alias vdd='vagrant destroy 2> /dev/null'
+alias vg='vagrant global-status 2> /dev/null'
+alias vp='vagrant global-status --prune 2> /dev/null'
+alias q='clear; task proj:Q'
+alias weeslack='docker rm -f wee-slack; docker run --rm -it --name wee-slack wee-slack'
+alias ..2='cd ../../'
+alias ..3='cd ../../../'
+alias ..4='cd ../../../../'
+alias ..5='cd ../../../../../'
+
+## Support dump stuff
+alias sd_nodes_pretty='sd_nodes 2> /dev/null | grep -v dtr- | lolcat -F 0.3'
+alias sd_nodes_down="sd_nodes | grep --color=never -E '(^HOSTNAME|down|--)'"
+alias sd_nodes_managers="sd_nodes | grep --color=never -E '(^HOSTNAME|manager|--)'"
+alias sd_nodes_dtr="sd_nodes | grep --color=never -E '(^HOSTNAME|DTR|--)'"
+alias sd_interlock_labels='cat interlock-configs.txt |jq '.[0].Spec.Data' -r |base64 -d |grep -i label'
+alias ls_manager_health='~/support-tools/introspection/ls_manager_health.sh'
+alias ls_worker_health='~/support-tools/introspection/ls_worker_health.sh'
+alias ls_ucp_reconcile_states='~/support-tools/introspection/ls_ucp_reconcile_states.sh'
+alias rethinkdb_find_missing_replicas='~/support-tools/introspection/rethinkdb_find_missing_replicas.sh'
+alias ls_manager_health_pretty="ls_manager_health | sed \"s/^[ \t]*//\" | tr -d '\"' | tr '{}' ' ' | tr -d ',' | grep -v Status"
+
+alias samson='ssh -YC root@SANITIZED-IP'
+alias vim-quick-note='TMP=$(basename $(mktemp)); mv /tmp/${TMP} ~/tmp; vim ${HOME}/tmp/${TMP}'
+
+alias sforce-clean-cache='rm -rfv ~/docker/sforce/sforce/.cache; mkdir ~/docker/sforce/sforce/.cache'
+alias sforce-nuke='docker rm -f $(docker ps -a -q -f ancestor=support/sforce:latest) 2> /dev/null; docker rm -f $(docker ps -a -q -f ancestor=support/sforce:testing) 2> /dev/null; docker rm -f $(docker ps -a -q -f ancestor=support/sforce:dev) 2> /dev/null'
+alias sforce-pull='sforce-nuke; rm -rfv ~/docker/sforce/sforce/.cache; mkdir ~/docker/sforce/sforce/.cache; docker pull support/sforce:latest; docker pull support/sforce:dev; docker pull support/sforce:testing'
+alias telegram-cli='/snap/bin/telegram-cli -N'
+alias pulseeffects='flatpak run com.github.wwmm.pulseeffects'
+
+force_color_prompt=yes
+alias mv-out-to-txt='for x in *.out; do mv "$x" "${x%.out}.txt"; done'
+
+
+alias fix-perms='sudo /usr/bin/fix-perms'
+
+alias interlock-proxy-inspect="cat ucp-interlock-proxy.txt | jq -r '.Spec|.Name,.TaskTemplate.ContainerSpec,.Mode.Replicated,.EndpointSpec,.TaskTemplate.Networks"
+alias wanip='dig +short myip.opendns.com @resolver1.opendns.com'
+alias rep='grep'
+alias mkdir-today='mkdir $(date -I)'
+alias diver-ucp-client-bundle='~/go/bin/diver ucp client-bundle'
+alias diver='~/go/bin/diver'
+alias SANITIZED-USER-vps='ssh root@SANITIZED-IP'
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+        # We have color support; assume it's compliant with Ecma-48
+        # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+        # a case would tend to support setf rather than setaf.)
+        color_prompt=yes
+    else
+        color_prompt=
+    fi
+fi
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[00;32m\]\u\[\033[00m\]@\[\033[00;33m\]\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+
+### cd into last modified director
+mvdl(){
+  # cd into the last directory modified/created in pwd
+   str=$(ls -lastr ~/Downloads | awk '{print $10}' | grep '^[0-9a-zA-Z]' | tail -1)
+   mv -v ~/Downloads/${str} .
+}
+
+
+cdl(){
+  # cd into the last directory modified/created in pwd
+   str=$(ls -lastrd */ | awk '{print $10}' | grep '^[0-9a-zA-Z]' | tail -1)
+   cd $str
+}
+
+tags(){
+  repo=$1
+  image=$2
+
+  if [ "$repo" = "" -a "$image" = "" ]; then
+     echo "Syntax: script <repo> <image>"
+  elif [ "$repo" != "" -a "$image" = "" ]; then 
+     repo=library
+     image=$1
+     echo Results for image: $image
+     curl -L -s 'https://registry.hub.docker.com/v2/repositories/'$repo'/'$image'/tags?page_size=1024'|jq '."results"[]["name"]' 2> /dev/null 
+  elif [ "$repo" != "" -a "$image" != "" ]; then
+     curl -L -s 'https://registry.hub.docker.com/v2/repositories/'$repo'/'$image'/tags?page_size=1024'|jq '."results"[]["name"]' 2> /dev/null
+  fi
+}
+
+lessp(){
+	cat "$@" | source-highlight --out-format=esc -o STDOUT -s prolog | less -R
+}
+
+lessj(){
+	cat "$@" | source-highlight --out-format=esc -o STDOUT -s json  | less -R
+}
+
+lessl(){
+	cat "$@" | source-highlight --out-format=esc -o STDOUT -s syslog  | less -R
+}
+
+dtr-container-ip(){
+for i in `ls -1 dtr-*`; do echo "**** $i ****"; cat $i | jq '.[] | .NetworkSettings.Networks' | jq '.[].IPAddress' | tr -d '"'; done
+}
+
+source <(kubectl completion bash)
+source <(minikube completion bash)
+
+parse-kube-describe-nodes(){
+cat kube-describe-nodes.txt | sed -n "/Events:/,/Name:/p" | tr ',' '\n'
+}
+
+diver-ucp-login(){
+		read -p 'UCP Host: ' HOST
+	       	read -p 'UCP Port: ' PORT
+	       	read -p 'UCP user: ' USER
+	       	read -sp 'UCP pass: ' PASS
+	       	~/go/bin/diver ucp login --ignorecert --username ${USER} --password ${PASS} --url https://${HOST}:${PORT}
+		echo -ne 'Example Usage: \n'
+		echo -ne 'diver ucp auth roles list\ndiver ucp auth roles get --rolename <role>\ndiver ucp auth roles create --rolename <rolename> --ruleset <rolename>.role\n'
+}
+
+diver-dtr-login(){
+                read -p 'DTR Host: ' HOST
+                read -p 'DTR Port: ' PORT
+                read -p 'DTR user: ' USER
+                read -sp 'DTR pass: ' PASS
+                ~/go/bin/diver dtr login --ignorecert --username ${USER} --password ${PASS} --url https://${HOST}:${PORT}
+		echo -ne '\nExample: diver dtr info replicas\n'
+}
+
+vless(){
+	VLESS=$(find /usr/share/vim -name 'less.sh')
+	if [ ! -z $VLESS ]; then
+		$VLESS $1
+	fi
+}
+
+sd_images(){
+	#awk '/docker images/{f=1;next} /docker stats/{f=0;next;print} f' dsinfo.txt
+	awk '/docker images/' RS= dsinfo.txt
+}
+
+
+sd_images_list(){
+	 awk '/docker images/{f=1;next} /docker stats/{f=0;next;print} f' dsinfo.txt | awk '{print $1}' | grep -v -E '(REPOSITORY|~)' | sed '/^$/d'
+	 #awk '/docker images/' RS= dsinfo.txt | awk '{print $1}' | grep -v -E '(REPOSITORY|~)' | sed '/^$/d'
+}
+
+sd_stats(){
+	awk '/docker stats/' RS= dsinfo.txt
+}
+
+sd_container_ids(){
+	awk '/docker stats/' RS= dsinfo.txt | awk 'x==1 {print $1} /CONTAINER/ {x=1}'
+}
+
+sd_engine(){
+    awk '/docker version/{f=1;next} /docker info/{f=0;next;print} f' dsinfo.txt
+    #awk '/docker version/' RS= dsinfo.txt
+}
+
+sfcd ()
+{
+    if [ -z $SFORCE_USER ]; then
+        casedir=~/cases/;
+    else
+        casedir=/host/sforce/attachments/cases/;
+    fi;
+    case_number=$(echo $1 | awk -F'/' '{print $NF}');
+    if [ ! -d ${casedir}/$case_number ]; then
+        mkdir ${casedir}/$case_number;
+    fi;
+    cd ${casedir}/$case_number;
+    touch .;
+    ls --color=auto
+}
+
+vssh(){
+    ssh -i ~/.ssh/id_rsa.samson.priv vagrant@${1}
+}
+
+git-update-fork(){
+    read -p "Your fork (git@github.com:YOUR-USERNAME/YOUR-FORKED-REPO.git): " FORK
+    read -p "Original Upstream (git@github.com/ORIGINAL-DEV-USERNAME/REPO-YOU-FORKED-FROM.git): " ORIG
+    ssh-add
+    git clone $FORK
+    cd $(echo $FORK | awk -F '/' '{print $2}' | sed 's/\(.*\).git/\1 /')
+    git remote add upstream $ORIG
+    git fetch upstream
+    git pull upstream master
+    git push
+}
+
+sanitize-file(){
+    read -p "Name to remove from file: " NAME
+    FILE=$(eval echo $1 | xargs basename)
+    FILE_PATH=$(eval echo ${1})
+    FILE_CLEAN=$(echo ${FILE}-sanitized | sed 's/^\.//')
+    echo "Sanitizing ${FILE}"
+    ## Just removes IPv4 addresses for now.
+    cat $FILE_PATH | sed -r 's/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b'/SANITIZED-IP/ | sed "s/${NAME}/SANITIZED-USER/I" > ${FILE_CLEAN}
+    echo -en "\nHere is the sanitized version: ${PWD}/${FILE_CLEAN}\n"
+}
+
