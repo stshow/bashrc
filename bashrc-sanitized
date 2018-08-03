@@ -264,3 +264,6 @@ sanitize-file(){
     echo -en "\nHere is the sanitized version: ${PWD}/${FILE_CLEAN}\n"
 }
 
+terraform-vpc-instances(){
+    VPC_ID=$(../terraform show | grep -A 1 aws_vpc.docker | tail -1 | awk '{print $NF}'); aws ec2 describe-instances --filters Name=vpc-id,Values=${VPC_ID}| jq '.Reservations[].Instances[] | [.LaunchTime, .State.Name, (.Tags[]|select(.Key=="Name")|.Value), .PublicDnsName, .PublicIpAddress]'
+}
