@@ -1,0 +1,469 @@
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH=$HOME/.oh-my-zsh
+# Set name of the theme to load. Optionally, if you set this to "random"
+# it'll load a random theme each time that oh-my-zsh is loaded.
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+ZSH_THEME="agnoster"
+#ZSH_THEME="powerlevel9k/powerlevel9k"
+
+## Powerline Go - https://github.com/justjanne/powerline-go#zsh
+#function powerline_precmd() {
+#    PS1="$(~/go/bin/powerline-go -error $? -shell zsh)"
+#}
+#
+#function install_powerline_precmd() {
+#  for s in "${precmd_functions[@]}"; do
+#    if [ "$s" = "powerline_precmd" ]; then
+#      return
+#    fi
+#  done
+#  precmd_functions+=(powerline_precmd)
+#}
+#
+#if [ "$TERM" != "linux" ]; then
+#    install_powerline_precmd
+#fi
+#
+
+# Set list of themes to load
+# Setting this variable when ZSH_THEME=random
+# cause zsh load theme from this variable instead of
+# looking in ~/.oh-my-zsh/themes/
+# An empty array have no effect
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion. Case
+# sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+HIST_STAMPS="mm/dd/yyyy"
+HISTSIZE=9999999999999999
+SAVEHIST=9999999999999999
+setopt inc_append_history
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(
+  git
+  docker
+  kubectl
+)
+
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/rsa_id"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+#
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $ZSH/oh-my-zsh.sh
+## command completion
+autoload -Uz compinit
+compinit
+
+plugins=(docker kubectl)
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+## Powerline bash 
+#powerline-daemon -q
+#POWERLINE_BASH_CONTINUATION=1
+#POWERLINE_BASH_SELECT=1
+#. /usr/share/powerline/bindings/bash/powerline.sh
+
+#function _update_ps1() {
+#    PS1="$(~/go/bin/powerline-go -error $?)"
+#}
+#
+#if [ "$TERM" != "linux" ]; then
+#    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+#fi
+
+## powerline-shell https://github.com/b-ryan/powerline-shell#bash
+#function _update_ps1() {
+#    PS1=$(powerline-shell $?)
+#}
+
+#if [[ $TERM != linux && ! $PROMPT_COMMAND =~ _update_ps1 ]]; then
+#    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+#fi
+
+# bash completion
+#if [ -f /etc/bash_completion ]; then
+#   . /etc/bash_completion
+#fi
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+#export PYTHONPATH="${PYTHONPATH}/usr/local/lib/python3.6/site-packages:/usr/lib/python3.6/site-packages"
+# enable color support of ls and also add handy aliases
+export EDITOR=vim
+export PATH=~/go/bin:~/.local/bin:$HOME/support-tools:/home/SANITIZED-USER-work/git/har/bin:/usr/games:$PATH
+
+# User specific aliases and functions
+source ~/support-tools/introspection/support_dump_reconstituters.sh
+	alias ls='ls --color=auto'
+	alias grep='grep --colour=auto'
+	alias egrep='egrep --colour=auto'
+	alias fgrep='fgrep --colour=auto'
+alias grep-out-junk="grep -E -v '(oci runtime error|rpc error|not a swarm manager|manifest unknown|is not running|level=info|level=warning|grpc|session failed|no such file or directory)'"
+alias wn='tmux rename-window $(basename "$PWD")'
+alias sforce-watch-queue='/home/SANITIZED-USER-work/docker/sforce/run-watch-queue.sh'
+alias view_photo='eog'
+alias task-sync='bash -x ~/bin/task-sync.sh'
+alias task-due='clear && task due.any: list'
+alias cases='clear && tmux rename-window "Cases" 2> /dev/null && task project:Ca'
+alias kb='clear && task project:KB'
+alias scripts='clear && task project:Script'
+alias untar='for f in *.tar; do d=`basename $f .tar`; mkdir -p $d; (cd $d && tar xf ../$f && mv dsinfo/* . && rm -rf dsinfo); done'
+alias untgz='for f in *.tgz; do d=`basename $f .tgz`; mkdir -p $d; (cd $d && tar xf ../$f && mv dsinfo/* . && rm -rf dsinfo); done'
+alias untargz='for f in *.tar.gz; do d=`basename $f .tar.gz`; mkdir -p $d; (cd $d && tar xf ../$f); done'
+alias train='/home/SANITIZED-USER-work/docker/train/train.sh'
+alias missing-nodes='~/bin/missing-nodes.sh'
+alias vu='vagrant up 2> /dev/null'
+alias vs='vagrant ssh 2> /dev/null'
+alias vdd='vagrant destroy 2> /dev/null'
+alias vg='vagrant global-status 2> /dev/null'
+alias vp='vagrant global-status --prune 2> /dev/null'
+alias q='clear; task proj:Q'
+alias weeslack='docker rm -f weeslack; docker run --rm -it --name weeslack weeslack'
+alias ..2='cd ../../'
+alias ..3='cd ../../../'
+alias ..4='cd ../../../../'
+alias ..5='cd ../../../../../'
+
+## Support dump stuff
+alias sd_nodes_pretty='sd_nodes 2> /dev/null | grep -v dtr- | lolcat -F 0.3'
+alias sd_nodes_down="sd_nodes | grep --color=never -E '(^HOSTNAME|down|--)'"
+alias sd_nodes_managers="sd_nodes | grep --color=never -E '(^HOSTNAME|manager|--)'"
+alias sd_nodes_dtr="sd_nodes | grep --color=never -E '(^HOSTNAME|DTR|--)'"
+alias sd_interlock_labels="cat interlock-configs.txt |jq '.[0].Spec.Data' -r |base64 -d |grep -i label"
+alias ls_manager_health='~/support-tools/introspection/ls_manager_health.sh'
+alias ls_worker_health='~/support-tools/introspection/ls_worker_health.sh'
+alias ls_ucp_reconcile_states='~/support-tools/introspection/ls_ucp_reconcile_states.sh'
+alias rethinkdb_find_missing_replicas='~/support-tools/introspection/rethinkdb_find_missing_replicas.sh'
+alias ls_manager_health_pretty="ls_manager_health | sed \"s/^[ \t]*//\" | tr -d '\"' | tr '{}' ' ' | tr -d ',' | grep -v Status"
+
+alias samson='ssh -YC root@SANITIZED-IP'
+alias vim-quick-note='TMP=$(basename $(mktemp)); mv /tmp/${TMP} ~/tmp; vim ${HOME}/tmp/${TMP}'
+
+alias sforce-clean-cache='rm -rfv ~/docker/sforce/sforce/.cache; mkdir ~/docker/sforce/sforce/.cache'
+alias sforce-nuke='docker rm -f $(docker ps -a -q -f ancestor=support/sforce:latest) 2> /dev/null; docker rm -f $(docker ps -a -q -f ancestor=support/sforce:testing) 2> /dev/null; docker rm -f $(docker ps -a -q -f ancestor=support/sforce:dev) 2> /dev/null'
+alias sforce-pull='sforce-nuke; rm -rfv ~/docker/sforce/sforce/.cache; mkdir ~/docker/sforce/sforce/.cache; docker pull support/sforce:latest; docker pull support/sforce:dev; docker pull support/sforce:testing'
+alias telegram-cli='/snap/bin/telegram-cli -N'
+alias pulseeffects='flatpak run com.github.wwmm.pulseeffects'
+
+force_color_prompt=yes
+alias mv-out-to-txt='for x in *.out; do mv "$x" "${x%.out}.txt"; done'
+
+
+alias fix-perms='sudo /usr/bin/fix-perms'
+
+alias interlock-proxy-inspect="cat ucp-interlock-proxy.txt | jq -r '.Spec|.Name,.TaskTemplate.ContainerSpec,.Mode.Replicated,.EndpointSpec,.TaskTemplate.Networks"
+alias wanip='dig +short myip.opendns.com @resolver1.opendns.com'
+alias rep='grep'
+alias mkdir-today='mkdir $(date -I)'
+alias diver-ucp-client-bundle='~/go/bin/diver ucp client-bundle'
+alias diver='~/go/bin/diver'
+alias SANITIZED-USER-vps='ssh root@SANITIZED-IP'
+alias weather='docker run -it --rm -e FIO_API_KEY=bc1a4133766ff431b26780cc0e788eea stshow/weather'
+alias weather-owm='docker run -it --rm -e LOCATION="Raleigh" -e BACKEND=openweathermap -e OWM_API_KEY=a35e42b7503a2810ddc2dd4d1eb30015 stshow/weather'
+alias sd_lnav='lnav */*/{jou*log,logs}'
+
+
+### cd into last modified director
+mvdl(){
+  # cd into the last directory modified/created in pwd
+   str=$(ls -lastr ~/Downloads | awk '{print $10}' | grep '^[0-9a-zA-Z]' | tail -1)
+   mv -v ~/Downloads/${str} .
+}
+
+
+cdl(){
+  # cd into the last directory modified/created in pwd
+   str=$(ls -lastrd */ | awk '{print $10}' | grep '^[0-9a-zA-Z]' | tail -1)
+   cd $str
+}
+
+tags(){
+  repo=$1
+  image=$2
+
+  if [ "$repo" = "" -a "$image" = "" ]; then
+     echo "Syntax: script <repo> <image>"
+  elif [ "$repo" != "" -a "$image" = "" ]; then 
+     repo=library
+     image=$1
+     echo Results for image: $image
+     curl -L -s 'https://registry.hub.docker.com/v2/repositories/'$repo'/'$image'/tags?page_size=1024'|jq '."results"[]["name"]' 2> /dev/null 
+  elif [ "$repo" != "" -a "$image" != "" ]; then
+     curl -L -s 'https://registry.hub.docker.com/v2/repositories/'$repo'/'$image'/tags?page_size=1024'|jq '."results"[]["name"]' 2> /dev/null
+  fi
+}
+
+lessp(){
+	cat "$@" | source-highlight --out-format=esc -o STDOUT -s prolog | less -R
+}
+
+lessj(){
+	cat "$@" | source-highlight --out-format=esc -o STDOUT -s json  | less -R
+}
+
+lessl(){
+	cat "$@" | source-highlight --out-format=esc -o STDOUT -s syslog  | less -R
+}
+
+dtr-container-ip(){
+for i in `ls -1 dtr-*`; do echo "**** $i ****"; cat $i | jq '.[] | .NetworkSettings.Networks' | jq '.[].IPAddress' | tr -d '"'; done
+}
+
+#source <(kubectl completion bash)
+#source <(minikube completion bash)
+
+parse-kube-describe-nodes(){
+cat kube-describe-nodes.txt | sed -n "/Events:/,/Name:/p" | tr ',' '\n'
+}
+
+diver-ucp-login(){
+		read -p 'UCP Host: ' HOST
+	       	read -p 'UCP Port: ' PORT
+	       	read -p 'UCP user: ' USER
+	       	read -sp 'UCP pass: ' PASS
+	       	~/go/bin/diver ucp login --ignorecert --username ${USER} --password ${PASS} --url https://${HOST}:${PORT}
+		echo -ne 'Example Usage: \n'
+		echo -ne 'diver ucp auth roles list\ndiver ucp auth roles get --rolename <role>\ndiver ucp auth roles create --rolename <rolename> --ruleset <rolename>.role\n'
+}
+
+diver-dtr-login(){
+                read -p 'DTR Host: ' HOST
+                read -p 'DTR Port: ' PORT
+                read -p 'DTR user: ' USER
+                read -sp 'DTR pass: ' PASS
+                ~/go/bin/diver dtr login --ignorecert --username ${USER} --password ${PASS} --url https://${HOST}:${PORT}
+		echo -ne '\nExample: diver dtr info replicas\n'
+}
+
+vless(){
+	VLESS=$(find /usr/share/vim -name 'less.sh')
+	if [ ! -z $VLESS ]; then
+		$VLESS $1
+	fi
+}
+
+sd_images(){
+	#awk '/docker images/{f=1;next} /docker stats/{f=0;next;print} f' dsinfo.txt
+	awk '/docker images/' RS= dsinfo.txt
+}
+
+
+sd_images_list(){
+	 awk '/docker images/{f=1;next} /docker stats/{f=0;next;print} f' dsinfo.txt | awk '{print $1}' | grep -v -E '(REPOSITORY|~)' | sed '/^$/d'
+	 #awk '/docker images/' RS= dsinfo.txt | awk '{print $1}' | grep -v -E '(REPOSITORY|~)' | sed '/^$/d'
+}
+
+sd_stats(){
+	awk '/docker stats/' RS= dsinfo.txt
+}
+
+sd_container_ids(){
+	awk '/docker stats/' RS= dsinfo.txt | awk 'x==1 {print $1} /CONTAINER/ {x=1}'
+}
+
+sd_engine(){
+    awk '/docker version/{f=1;next} /docker info/{f=0;next;print} f' dsinfo.txt
+    #awk '/docker version/' RS= dsinfo.txt
+}
+
+sd_docker_info(){
+    awk '/docker info/{f=1;next} /docker images/{f=0;next;print} f' dsinfo.txt
+}
+
+sfcd ()
+{
+    if [ -z $SFORCE_USER ]; then
+        casedir=~/cases/;
+    else
+        casedir=/host/sforce/attachments/cases/;
+    fi;
+    case_number=$(echo $1 | awk -F'/' '{print $NF}');
+    if [ ! -d ${casedir}/$case_number ]; then
+        mkdir ${casedir}/$case_number;
+    fi;
+    cd ${casedir}/$case_number;
+    touch .;
+    ls --color=auto
+}
+
+vssh(){
+    tmux rename-window "$*" 2> /dev/null
+    command ssh -i ~/.ssh/id_rsa.samson.priv vagrant@${1}
+}
+
+git-update-fork(){
+    read -p "Your fork (git@github.com:YOUR-USERNAME/YOUR-FORKED-REPO.git): " FORK
+    read -p "Original Upstream (git@github.com/ORIGINAL-DEV-USERNAME/REPO-YOU-FORKED-FROM.git): " ORIG
+    ssh-add
+    git clone $FORK
+    cd $(echo $FORK | awk -F '/' '{print $2}' | sed 's/\(.*\).git/\1 /')
+    git remote add upstream $ORIG
+    git fetch upstream
+    git pull upstream master
+    git push
+}
+
+sanitize-file(){
+    read -p "Name to remove from file: " NAME
+    FILE=$(eval echo $1 | xargs basename)
+    FILE_PATH=$(eval echo ${1})
+    FILE_CLEAN=$(echo ${FILE}-sanitized | sed 's/^\.//')
+    echo "Sanitizing ${FILE}"
+    ## Just removes IPv4 addresses for now.
+    cat $FILE_PATH | sed -r 's/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b'/SANITIZED-IP/ | sed "s/${NAME}/SANITIZED-USER/I" > ${FILE_CLEAN}
+    echo -en "\nHere is the sanitized version: ${PWD}/${FILE_CLEAN}\n"
+}
+
+bytesToHuman() {
+    b=${1:-0}; d=''; s=0; S=(Bytes {K,M,G,T,P,E,Z,Y}iB)
+    while ((b > 1024)); do
+        d="$(printf ".%02d" $((b % 1024 * 100 / 1024)))"
+        b=$((b / 1024))
+        let s++
+    done
+    echo "$b$d ${S[$s]}"
+}
+
+sd_container-by-status(){
+    #This function is intended to parse `support.sh` output or recent `dsinfo.txt` output. 
+      case "$1" in
+        exited)
+                  # "-d" or "--debug" parameter?
+                  awk '/ccc Container/' RS= *.txt | awk '/"Status":"exited"/' RS="ccc Container"
+                  echo -en "\nExited containers...\n"
+                  ;;
+        running)
+
+                  awk '/ccc Container/' RS= *.txt | awk '/"Status":"running"/' RS="ccc Container"
+                  echo -en "\nRunning containers...\n"
+                  ;;
+              "")
+                  awk '/ccc Container/' RS= *.txt | awk '/"Status":"running"/' RS="ccc Container"
+                  echo -en "\nUsed default 'running'...\n"
+                  ;;
+               *)
+                  echo -en "\nSyntax:\n\nsd_container-by-status <exited-OR-running>\n\nAlso, make sure 'dsinfo.txt' or support.sh output is in the directory.\n\n"
+                  ;;
+      esac
+}
+
+aws-my-instances(){
+    aws ec2 describe-instances --filters 'Name=tag:Name,Values=sshowers*' --query 'Reservations[*].Instances[*].[ImageId,Tags,InstanceId,InstanceType,KeyName,PublicDnsName,PublicIpAddress,State,SubnetId,VpcId,Architecture]' | tr -d '[]{} ' | grep -v ^$ | tr ',' ' '
+}
+
+terraform-vpc-instances(){
+    VPC_ID=$(../terraform show | grep -A 1 aws_vpc.docker | tail -1 | awk '{print $NF}'); aws ec2 describe-instances --filters Name=vpc-id,Values=${VPC_ID}| jq '.Reservations[].Instances[] | [.LaunchTime, .State.Name, (.Tags[]|select(.Key=="Name")|.Value), .PublicDnsName, .PublicIpAddress]'
+}
+
+
+#alias unzipdir='for f in *.zip; do d=`basename $f .zip`; mkdir -p $d; (cd $d && unzip ../$f); done'
+
+unzipdir(){
+    for f in $@; do 
+        pwd=$(pwd)
+        d=$(basename $f .zip)
+        mkdir -p $(date -I)/${d}
+        cd $(date -I)/${d} && unzip ../../$f
+        if [ $(ls -1 -d */ | wc -l) = 1 ]; then
+           mv $(ls -1 -d */)/* . 
+           rmdir $(ls -1 -d */)
+        fi
+        cd ${pwd}
+    done
+    cd $(ls -r -1 -d */ | tail -1)
+}
+
+
+ssh() {
+    tmux rename-window "$*" 2> /dev/null
+    command ssh "$@"
+}
+
+sforce() {
+    tmux rename-window "sforce" 2> /dev/null
+    bash /home/SANITIZED-USER-work/docker/sforce/run.sh
+}
+
+awssh(){
+    tmux rename-window "$*" 2> /dev/null
+    command ssh -i /home/SANITIZED-USER/Documents/AWS/sshowers-dev-testkit.pem "$@"
+}
+
+worklaptop-ssh() {
+    tmux rename-window "worklaptop" 2> /dev/null
+    command ssh -YC SANITIZED-USER@SANITIZED-IP
+}
