@@ -27,7 +27,9 @@ if [ "$TERM" != "linux" ]; then
     install_powerline_precmd
 fi
 
-
+## Home and End keys (this is stupid, but I will suffer it for now)
+bindkey  "^[[H"   beginning-of-line
+bindkey  "^[[F"   end-of-line
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random
 # cause zsh load theme from this variable instead of
@@ -366,8 +368,8 @@ vssh(){
 }
 
 git-update-fork(){
-    read -p "Your fork (git@github.com:YOUR-USERNAME/YOUR-FORKED-REPO.git): " FORK
-    read -p "Original Upstream (git@github.com/ORIGINAL-DEV-USERNAME/REPO-YOU-FORKED-FROM.git): " ORIG
+    read "?Your fork (git@github.com:YOUR-USERNAME/YOUR-FORKED-REPO.git): " FORK
+    read "?Original Upstream (git@github.com/ORIGINAL-DEV-USERNAME/REPO-YOU-FORKED-FROM.git): " ORIG
     ssh-add
     git clone $FORK
     cd $(echo $FORK | awk -F '/' '{print $2}' | sed 's/\(.*\).git/\1 /')
