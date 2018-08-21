@@ -1,5 +1,9 @@
 #!/bin/bash
 
+list(){
+    grep -E '^[[:space:]]*([[:alnum:]_]+[[:space:]]*\(\)|function[[:space:]]+[[:alnum:]_]+)' "$0" | tr -d '(){}'
+}
+
 kbase(){
     echo -en "\n New article for Docker kbase...\n"
     read -p "Clone the kbase? (y/n) :" CLONE
