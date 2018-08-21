@@ -1,5 +1,11 @@
 #!/bin/bash
 
+gen-alias(){
+    for i in `$0 list`; do 
+        echo alias $i="'~/.bashrc-functions $i'" 
+    done
+}
+
 list(){
     grep -E '^[[:space:]]*([[:alnum:]_]+[[:space:]]*\(\)|function[[:space:]]+[[:alnum:]_]+)' "$0" | tr -d '(){}'
 }
