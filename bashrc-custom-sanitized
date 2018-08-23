@@ -11,7 +11,7 @@ search(){
         echo -en "\nNo results...\nTry adding '%' to your search\n"
     fi
     for id in $RESULTS; do
-        PARENTID=$(explore -x "SELECT ParentId from CaseComment where Id = '$id' Limit 1")
+        PARENTID=$(explore -x "SELECT ParentId from CaseComment where Id = '$id' Limit 1" | sed 's/[^a-zA-Z0-9]//g' | grep -v -E '(^$|ParentId)')
         read -p "See comment match? (y/n) " COMMENT
         if [ $COMMENT = 'y' ]; then
            explore -x "SELECT CommentBody from CaseComment where Id = '$id' Limit 1"
