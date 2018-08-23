@@ -17,7 +17,7 @@ search(){
            explore -x "SELECT CommentBody from CaseComment where Id = '$id' Limit 1"
            read -p "See case? (y/n) " VIEW
            if [ $VIEW = 'y' ]; then
-               /home/sforce/sforce/sforce.py 'case -v $PARENTID'
+               /home/sforce/sforce/sforce.py case -v $PARENTID
            fi
         elif [ $COMMENT = 'n' ]; then
             break
