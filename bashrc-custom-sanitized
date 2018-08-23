@@ -1,0 +1,68 @@
+alias fix-perms='chown -R 1001.1001 /host'
+alias all='ss -s a'
+alias holds='ss -s h'
+alias watch-queue='while true; do ss && sleep 60 && reset; done'
+alias seg-cases='all 2>&1 | grep SEG'
+alias escalations='all 2>&1 | grep -i -E "(esc|seg)"'
+
+search(){
+    RESULTS=$(explore -x "SELECT Id from CaseComment where CommentBody like '${@}' Limit 15" | sed 's/[^a-zA-Z0-9]//g' | grep -v -E '(^$|Id)')
+    if [ -z "$RESULTS" ]; then
+        echo -en "\nNo results...\nTry adding '%' to your search\n"
+    fi
+    for id in $RESULTS; do
+        PARENTID=$(explore -x "SELECT ParentId from CaseComment where Id = '$id' Limit 1")
+        read -p "See comment match? (y/n) " COMMENT
+        if [ $COMMENT = 'y' ]; then
+           explore -x "SELECT CommentBody from CaseComment where Id = '$id' Limit 1"
+           read -p "See case? (y/n) " VIEW
+           if [ $VIEW = 'y' ]; then
+               /home/sforce/sforce/sforce.py 'case -v $PARENTID'
+           fi
+        elif [ $COMMENT = 'n' ]; then
+            break
+        fi
+    done
+}
+
+sfcd ()
+{
+    if [ -z $SFORCE_USER ]; then
+        casedir=~/cases/;
+    else
+        casedir=/host/sforce/attachments/cases/;
+    fi;
+    case_number=$(echo $1 | awk -F'/' '{print $NF}');
+    if [ ! -d ${casedir}/$case_number ]; then
+        mkdir ${casedir}/$case_number;
+    fi;
+    cd ${casedir}/$case_number;
+    touch .;
+    ls --color=auto
+}
+
+#VLESS=$(find /usr/share/vim -name 'less.sh')
+#if [ ! -z $VLESS ]; then
+#	alias less=$VLESS
+#fi
+
+function set-queue {
+  if [ -z ${1} ]; then
+    echo "
+Usage: set-queue <queue-name>
+"
+  else
+    if [ "$SANDBOX" = 'True' ] ; then
+      export QNAME=${1}
+      export PS1="sforce-(sandbox)-$QNAME:\w$ "
+    else
+      export QNAME=${1}
+      export PS1="\[$(tput bold)\]\[$(tput setaf 6)\]\t \[$(tput setaf 2)\][\[$(tput setaf 3)\]\[$(tput setaf 1)\]\[$(tput setaf 3)\]sforce-$QNAME \[$(tput setaf 6)\]\W\[$(tput setaf 2)\]]\[$(tput setaf 4)\]\\$ \[$(tput sgr0)\]"
+    fi
+  fi
+}
+
+export PS1="\[$(tput bold)\]\[$(tput setaf 6)\]\t \[$(tput setaf 2)\][\[$(tput setaf 3)\]\[$(tput setaf 1)\]\[$(tput setaf 3)\]sforce-$QNAME \[$(tput setaf 6)\]\W\[$(tput setaf 2)\]]\[$(tput setaf 4)\]\\$ \[$(tput sgr0)\]"
+
+PATH=$PATH:~/.local/bin
+
